@@ -38,7 +38,6 @@ export type RuleSatisfaction = {
 
 
 
-// Sometimes I hate typescript. I would love to use an interface here, but typescript says no with this stupid constructor stuff.
 export class Rule {
 
     get ruleText(): string {
