@@ -4,6 +4,8 @@ This is based off of [Neal's Password Game](https://neal.fun/password-game/)
 
 I thought it would be a fun and short challenge to make, So here it is (:
 
+Play the game: https://potat05.github.io/password-game/
+
 ## Developing
 
 Once you've got the project, install dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
