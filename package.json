@@ -9,7 +9,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
         "deploy_BROKEN": "npm exec gh-pages -d build",
-        "deploy": "node ./node_modules/gh-pages/bin/gh-pages.js -d build"
+        "deploy": "node ./node_modules/gh-pages/bin/gh-pages.js -d build -t true"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
