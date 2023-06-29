@@ -9,6 +9,7 @@ Play the game: https://potat05.github.io/password-game/
 ## TODO
 
 * Set up auto github pages.
+* Slowly introduce more rules.
 
 ## Developing
 

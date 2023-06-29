@@ -1,34 +1,30 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { Password } from "../password";
+    import type { Password } from "../password";
     import type { Rule, RuleSatisfaction } from "../rule";
     import { Rule_MinPasswordLength } from "../rules/minpasswordlength";
     import { Rule_MustIncludeNumber } from "../rules/mustincludenumber";
     import { Rule_NumbersMustAddToNumber } from "../rules/passwordmustadduptonumber";
     import { Rule_MustIncludeTodaysDate } from "../rules/mustincludetodaysdate";
     import { Rule_MaxPasswordLength } from "../rules/maxpasswordlength";
+    import { Rule_MustBeMoreExciting } from "../rules/mustbemoreexciting";
+    import { Rule_JustRightTemperature } from "../rules/justrighttemperature";
+    import PasswordInput from "../components/PasswordInput.svelte";
 
 
     
+    /**
+     * Random integer in range  
+     * min..=max (inclusive)  
+     */
     function randomInRange(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
 
 
-    let password = new Password();
-
-    let rules: Rule[] = [
-        new Rule_MinPasswordLength(password, randomInRange(5, 10)),
-        new Rule_MaxPasswordLength(password, 100),
-        new Rule_MustIncludeNumber(password),
-        new Rule_NumbersMustAddToNumber(password, randomInRange(40, 60)),
-        new Rule_MustIncludeTodaysDate(password)
-    ];
-
-
-
-    let inputContainer: HTMLDivElement;
+    let password: Password;
+    let rules: Rule[] = [];
 
 
 
@@ -41,11 +37,7 @@
 
 
 
-    function updateRules() {
-
-        password.text = inputContainer.innerText;
-
-
+    function update() {
 
         let satisfactions: RuleSatisfactionWithIndex[] = [];
 
@@ -68,27 +60,38 @@
 
 
     onMount(() => {
-        updateRules();
+
+        rules = [
+            new Rule_MinPasswordLength(password, randomInRange(5, 10)),
+            new Rule_MaxPasswordLength(password, 100),
+            new Rule_MustIncludeNumber(password),
+            new Rule_NumbersMustAddToNumber(password, randomInRange(40, 60)),
+            new Rule_MustIncludeTodaysDate(password),
+            new Rule_MustBeMoreExciting(password, [ '!', '?' ], randomInRange(2, 4)),
+            new Rule_JustRightTemperature(password, {
+                // These numbers are just made up.
+                '🔥': 30,
+                '♨️': 25,
+                '🚀': 100,
+                '🪔': 20,
+                '🕯': 10,
+                '💦': -10,
+                '💧': -3,
+                '🌊': -50,
+                '🧊': -30,
+                '❄️': -5,
+                '🌨': -40
+                // Room temp, Soup temp, +-5 range.   (C)
+            }, 21, randomInRange(80, 100), 5)
+        ];
+
+        update();
+
     });
 
 </script>
 
 <style>
-
-    #password-input {
-        padding: 10px;
-        margin: 10px;
-        background-color: #222;
-        color: white;
-        font-size: xx-large;
-    }
-
-    #password-input:empty::before {
-        content: 'Password';
-        cursor: text;
-        color: gray;
-        font-style: italic;
-    }
 
     #win-message {
         color: limegreen;
@@ -150,13 +153,10 @@
 
 </style>
 
-<div
-    bind:this={inputContainer}
-    id="password-input"
-    contenteditable="true"
-    spellcheck="false"
-    on:input={updateRules}
-></div>
+<PasswordInput
+    bind:password={password}
+    on:passwordchange={update}
+/>
 
 {#if notSatisfied.length == 0}
 
@@ -179,7 +179,7 @@
         {#each satisfied as satisfaction}
             <div class="rule satisfied">
                 <div class="rule-password-num">Rule #{satisfaction.index + 1}</div>
-                <div class="rule-password-msg">{satisfaction.rule.ruleText}</div>
+                <div class="rule-password-msg">{satisfaction.message ?? satisfaction.rule.ruleText}</div>
             </div>
         {/each}
     </div>
