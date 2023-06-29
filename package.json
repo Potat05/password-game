@@ -8,7 +8,8 @@
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-        "deploy": "npm exec gh-pages -d dist"
+        "deploy_BROKEN": "npm exec gh-pages -d build",
+        "deploy": "node ./node_modules/gh-pages/bin/gh-pages.js -d build"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
