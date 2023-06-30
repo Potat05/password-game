@@ -6,7 +6,7 @@
 
 
 
-    let inputContainer: HTMLInputElement;
+    let inputContainer: HTMLDivElement;
 
     export let password: Password = new Password();
 
@@ -43,7 +43,6 @@
 <div
     bind:this={inputContainer}
     id="password-input"
-    type="text"
     on:input={componentUpdate}
     spellcheck="false"
     contenteditable
