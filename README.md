@@ -10,6 +10,7 @@ Play the game: https://potat05.github.io/password-game/
 
 * Set up auto github pages.
 * Slowly introduce more rules.
+* Add event listener for rules to recheck password. (Needed for mustincludetodaysdate to not break on new day.)
 
 ## Developing
 
