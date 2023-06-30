@@ -2,14 +2,15 @@
     import { onMount } from "svelte";
     import type { Password } from "../password";
     import type { Rule, RuleSatisfaction } from "../rule";
-    import { Rule_MinPasswordLength } from "../rules/minpasswordlength";
+    import { Rule_PasswordLengthRange } from "../rules/passwordlengthrange";
     import { Rule_MustIncludeNumber } from "../rules/mustincludenumber";
     import { Rule_NumbersMustAddToNumber } from "../rules/passwordmustadduptonumber";
     import { Rule_MustIncludeTodaysDate } from "../rules/mustincludetodaysdate";
-    import { Rule_MaxPasswordLength } from "../rules/maxpasswordlength";
     import { Rule_MustBeMoreExciting } from "../rules/mustbemoreexciting";
     import { Rule_JustRightTemperature } from "../rules/justrighttemperature";
     import PasswordInput from "../components/PasswordInput.svelte";
+    import { Rule_MustIncludeUppercase } from "../rules/mustincludeuppercase";
+    import { Rule_MustIncludeSpecialCharacter } from "../rules/mustincludespecialcharacter";
 
 
     
@@ -25,6 +26,7 @@
 
     let password: Password;
     let rules: Rule[] = [];
+    let rulesToAdd: Rule[] = [];
 
 
 
@@ -55,6 +57,18 @@
         notSatisfied = satisfactions.filter(satisfaction => !satisfaction.satisfied)
             .sort((a, b) => (b?.severity ?? 99999 + b.index) - (a?.severity ?? 99999 + a.index));
 
+
+
+        if(notSatisfied.length == 0 && rulesToAdd.length > 0) {
+            const rule = rulesToAdd.shift();
+            if(rule === undefined) {
+                throw new Error('Catastrophic error.');
+            }
+            rules.push(rule);
+
+            update();
+        }
+
     }
 
 
@@ -62,9 +76,13 @@
     onMount(() => {
 
         rules = [
-            new Rule_MinPasswordLength(password, randomInRange(5, 10)),
-            new Rule_MaxPasswordLength(password, 100),
+            new Rule_PasswordLengthRange(password, 6, 100)
+        ];
+
+        rulesToAdd = [
+            new Rule_MustIncludeUppercase(password),
             new Rule_MustIncludeNumber(password),
+            new Rule_MustIncludeSpecialCharacter(password),
             new Rule_NumbersMustAddToNumber(password, randomInRange(40, 60)),
             new Rule_MustIncludeTodaysDate(password),
             new Rule_MustBeMoreExciting(password, [ '!', '?' ], randomInRange(2, 4)),

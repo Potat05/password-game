@@ -3,15 +3,18 @@ import { Rule, RuleSatisfactionSeverity, type RuleSatisfaction } from "../rule";
 
 
 
-export class Rule_MustIncludeNumber extends Rule {
+export class Rule_MustIncludeSpecialCharacter extends Rule {
 
     get ruleText(): string {
-        return `Your password must include a number.`;
+        return `Your password must include a special character.`;
     }
 
     satisfies(): RuleSatisfaction {
 
-        if(/[0-9]/g.test(this.password.text)) {
+        for(const char of this.password.text) {
+
+            if(/[a-zA-Z0-9]/.test(char)) continue;
+            if(/\p{Emoji_Presentation}/u.test(char)) continue;
 
             return {
                 rule: this,
@@ -23,7 +26,7 @@ export class Rule_MustIncludeNumber extends Rule {
         return {
             rule: this,
             satisfied: false,
-            severity: RuleSatisfactionSeverity.Medium
+            severity: RuleSatisfactionSeverity.Low
         }
 
     }

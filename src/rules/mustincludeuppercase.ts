@@ -3,15 +3,15 @@ import { Rule, RuleSatisfactionSeverity, type RuleSatisfaction } from "../rule";
 
 
 
-export class Rule_MustIncludeNumber extends Rule {
+export class Rule_MustIncludeUppercase extends Rule {
 
     get ruleText(): string {
-        return `Your password must include a number.`;
+        return `Your password must include an uppercase character.`;
     }
 
     satisfies(): RuleSatisfaction {
 
-        if(/[0-9]/g.test(this.password.text)) {
+        if(/[A-Z]/g.test(this.password.text)) {
 
             return {
                 rule: this,
