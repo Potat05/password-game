@@ -34,7 +34,7 @@ export class Rule_NumbersMustAddToNumber extends Rule {
             rule: this,
             satisfied: false,
             severity: RuleSatisfactionSeverity.Medium,
-            message: `The digits in your password must add up to ${this.number}, not ${total}.`
+            message: `The digits in your password add up to ${total}, they must add up to ${this.number}`
         }
 
     }

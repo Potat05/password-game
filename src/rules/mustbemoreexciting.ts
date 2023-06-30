@@ -40,7 +40,7 @@ export class Rule_MustBeMoreExciting extends Rule {
             rule: this,
             satisfied: false,
             severity: RuleSatisfactionSeverity.VeryHigh,
-            message: `Your password must be more exciting. (Must include at least ${this.minExcitingCharacters} exciting characters '${this.excitingCharacters.join('')}', not ${numExcitingCharacters}.)`
+            message: `Your password must be more exciting. (Must include at least ${this.minExcitingCharacters} exciting characters "${this.excitingCharacters.join('')}".)`
         }
 
     }

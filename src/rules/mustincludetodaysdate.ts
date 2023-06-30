@@ -15,7 +15,7 @@ function findAllDatesInString(str: string): Date[] {
 
     for(let i = 0; i < str.length; i++) {
         for(let j = i; j <= str.length; j++) {
-            // TODO: This may break with different locals. (Maybe check all of them if any of them match?)
+            // TODO: This may break with different locales. (Maybe check all of them if any of them match?)
             // But it should be fine for now just to use the default that the browser gives.
             const search = new Date(str.slice(i, j));
 
@@ -48,9 +48,9 @@ export class Rule_MustIncludeTodaysDate extends Rule {
 
         if(foundDates.some(date => {
             return (
-                date.getUTCDate() == today.getUTCDate() &&
-                date.getUTCMonth() == today.getUTCMonth() &&
-                date.getUTCFullYear() == today.getUTCFullYear()
+                date.getDate() == today.getDate() &&
+                date.getMonth() == today.getMonth() &&
+                date.getFullYear() == today.getFullYear()
             );
         })) {
             return {
