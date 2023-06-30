@@ -7,7 +7,7 @@ import { Rule, RuleSatisfactionSeverity, type RuleSatisfaction } from "../rule";
 export class Rule_MustBeMoreExciting extends Rule {
 
     get ruleText(): string {
-        return `Your password must be more exciting.`;
+        return `Your password must be exciting${'!'.repeat(this.minExcitingCharacters)}`;
     }
     
     excitingCharacters: string[];
@@ -40,7 +40,7 @@ export class Rule_MustBeMoreExciting extends Rule {
             rule: this,
             satisfied: false,
             severity: RuleSatisfactionSeverity.VeryHigh,
-            message: `Your password must be more exciting. (Must include at least ${this.minExcitingCharacters} exciting characters "${this.excitingCharacters.join('')}".)`
+            message: `${this.ruleText} (Must include at least ${this.minExcitingCharacters} exciting characters "${this.excitingCharacters.join('')}".)`
         }
 
     }
